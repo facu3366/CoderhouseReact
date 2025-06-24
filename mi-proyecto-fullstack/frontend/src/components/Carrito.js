@@ -1,3 +1,5 @@
+import React from 'react';
+
 function Carrito({ carrito, listaDeCompra }) {
   return (
     <div>

@@ -1,15 +1,21 @@
-import { useState } from 'react';
-import './App.css';
-import Header from './components/Header';
+import React, { useState } from 'react';
 import Carrito from './components/Carrito';
+import Header from './components/Header';
+import './App.css';
 
 function App() {
   const [nombre, setNombre] = useState('');
-  const [carrito, setCarrito] = useState(1500);
-  const [listaDeCompra, setListaDeCompra] = useState(["Yerba", "Fideos", "Helado"]);
+  const [producto, setProducto] = useState('');
+  const [precio, setPrecio] = useState('');
+  const [listaDeCompra, setListaDeCompra] = useState([]);
+  const [carrito, setCarrito] = useState(0);
 
-  const manejarCambio = (e) => {
-    setNombre(e.target.value);
+  const agregarAlCarrito = () => {
+    if (!producto || !precio) return;
+    setListaDeCompra([...listaDeCompra, `${producto} - $${precio}`]);
+    setCarrito(carrito + parseFloat(precio));
+    setProducto('');
+    setPrecio('');
   };
 
   return (
@@ -19,8 +25,23 @@ function App() {
         type="text"
         placeholder="Escribí tu nombre"
         value={nombre}
-        onChange={manejarCambio}
+        onChange={(e) => setNombre(e.target.value)}
       />
+      <hr />
+      <input
+        type="text"
+        placeholder="Nombre del producto"
+        value={producto}
+        onChange={(e) => setProducto(e.target.value)}
+      />
+      <input
+        type="number"
+        placeholder="Precio"
+        value={precio}
+        onChange={(e) => setPrecio(e.target.value)}
+      />
+      <button onClick={agregarAlCarrito}>Agregar al carrito</button>
+
       <Carrito carrito={carrito} listaDeCompra={listaDeCompra} />
     </div>
   );
